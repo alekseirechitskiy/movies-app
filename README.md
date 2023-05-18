@@ -1,1 +1,1 @@
-## Movied DB App (KATA Academy)
+## Movies DB App (KATA Academy)
