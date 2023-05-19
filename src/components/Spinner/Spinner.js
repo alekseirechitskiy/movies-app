@@ -1,7 +1,7 @@
 import React from 'react';
 import { Spin } from 'antd';
 
-import './Spinner.css';
+import './spinner.css';
 const Spinner = () => {
   return (
     <Spin tip="Loading" size="large">

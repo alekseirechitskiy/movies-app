@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
-import MapiService from '../../Services/MapiService';
-import Spinner from '../Spinner';
-import List from '../List';
-import ErrorMessage from '../ErrorMessage';
+import MapiService from '../../services/mapiService';
+import Spinner from '../spinner';
+import List from '../list';
+import ErrorMessage from '../errorMessage';
 
-import './App.css';
+import './app.css';
 
 export default class App extends Component {
   mapiService = new MapiService();
@@ -22,7 +22,7 @@ export default class App extends Component {
   };
 
   getData = () => {
-    const title = 'spider-man';
+    const title = 'matrix';
     this.mapiService.getMovies(title).then(this.onUpdateList).catch(this.onError);
   };
 
