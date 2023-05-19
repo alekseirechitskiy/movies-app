@@ -1,2 +1,2 @@
-import Card from './Card';
+import Card from './Card.jsx';
 export default Card;
