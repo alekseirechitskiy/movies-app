@@ -26,8 +26,8 @@ export default class MovieDBService {
       `https://api.themoviedb.org/3/search/movie?query=${searchWord}&include_adult=false&language=en-US&page=1&api_key=${this._API_KEY}`
     );
     // console.log('res: ', res.results);
+    // return res.results;
     return res.results;
-    // return res.results[0];
     // return res.results.map((movie) => console.log(this._transformData(movie)));
   }
 }

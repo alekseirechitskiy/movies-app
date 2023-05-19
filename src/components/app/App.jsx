@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import MapiService from '../../services/mapi-service';
 import List from '../List';
+import Spinner from '../Spinner';
 
 import './App.css';
 
@@ -14,16 +15,18 @@ export default class App extends Component {
   }
 
   state = {
-    resultsArray: null,
+    resultsArray: [],
+    loading: true,
   };
 
   async getData() {
-    const title = 'batman';
+    const title = 'matrix';
     const data = this.mapiService.getMovies(title);
 
     data.then((result) => {
       return this.setState({
         resultsArray: result,
+        loading: false,
       });
     });
   }
@@ -45,8 +48,11 @@ export default class App extends Component {
   // };
 
   render() {
-    const { resultsArray } = this.state;
-    if (!resultsArray) return;
+    const { resultsArray, loading } = this.state;
+
+    if (loading) {
+      return <Spinner />;
+    }
 
     // const item = resultsArray.map((el) => <li key={el.id}>{el.title}</li>);
 

@@ -58,7 +58,7 @@
     "prettier": "^2.8.8"
   },
   "lint-staged": {
-    "src/**/*.js": [
+    "src/**/*.{js,jsx}": [
       "npm run lint:fix",
       "npm run format"
     ],
