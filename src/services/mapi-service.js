@@ -1,7 +1,7 @@
 export default class MovieDBService {
   // _GLOBAL_URL = `https://api.themoviedb.org/3/search/movie?query=${this._SEARCH_WORD}&include_adult=false&language=en-US&page=1&api_key=${this._API_KEY}`;
 
-  _SEARCH_WORD = 'return';
+  // _SEARCH_WORD = 'return';
   _API_KEY = '67794c82b9038fd6aca2a93ec32186a6';
 
   async getResource(url) {
