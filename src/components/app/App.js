@@ -53,7 +53,6 @@ export default class App extends Component {
     return (
       <div className="container">
         {errorMessage}
-        {/* <List data={resultsArray} /> */}
         {spinner}
         {content}
       </div>
