@@ -23,7 +23,7 @@ export default class MovieDBService {
 
   async getMovies(searchWord) {
     const res = await this.getResource(
-      `https://api.themoviedb.org/3/searc/movie?query=${searchWord}&include_adult=false&language=en-US&page=1&api_key=${this._API_KEY}`
+      `https://api.themoviedb.org/3/search/movie?query=${searchWord}&include_adult=false&language=en-US&page=1&api_key=${this._API_KEY}`
     );
     // console.log('res: ', res.results);
     // return res.results;
