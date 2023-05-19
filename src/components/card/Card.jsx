@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 
 // import MapiService from '../../services/mapi-service';
 
-import './card.css';
+import './Card.css';
 // import image from './card.jpg';
 
 export default class Card extends Component {

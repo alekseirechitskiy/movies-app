@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 import MapiService from '../../services/mapi-service';
-import List from '../list';
+import List from '../List';
 
-import './app.css';
+import './App.css';
 
 export default class App extends Component {
   mapiService = new MapiService();
@@ -18,7 +18,7 @@ export default class App extends Component {
   };
 
   async getData() {
-    const title = 'return';
+    const title = 'batman';
     const data = this.mapiService.getMovies(title);
 
     data.then((result) => {

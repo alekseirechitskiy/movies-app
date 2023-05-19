@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 // import { Col, Row } from 'antd';
 
-import Card from '../card';
+import Card from '../Card';
 
-import './list.css';
+import './List.css';
 
 export default class List extends Component {
   renderListItem(listItem) {
