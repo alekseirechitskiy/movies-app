@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import MapiService from '../../services/mapi-service';
 import Spinner from '../Spinner';
 import List from '../List';
-import Error from '../Error';
+import ErrorMessage from '../ErrorMessage';
 
 import './App.css';
 
@@ -22,7 +22,7 @@ export default class App extends Component {
   };
 
   getData = () => {
-    const title = 'return';
+    const title = 'Spider-man';
     this.mapiService.getMovies(title).then(this.onUpdateList).catch(this.onError);
   };
 
@@ -42,7 +42,7 @@ export default class App extends Component {
 
     const hasData = !(loading || error);
 
-    const errorMessage = error ? <Error /> : null;
+    const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null;
     const content = hasData ? <List data={resultsArray} /> : null;
 
