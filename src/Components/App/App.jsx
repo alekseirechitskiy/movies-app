@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Offline, Online } from 'react-detect-offline';
+import { Alert } from 'antd';
 
 import MapiService from '../../services/mapiService.js';
 import Spinner from '../Spinner/index.js';
@@ -22,7 +24,7 @@ export default class App extends Component {
   };
 
   getData = () => {
-    const title = 'mega';
+    const title = 'Iron';
     this.mapiService.getMovies(title).then(this.onUpdateList).catch(this.onError);
   };
 
@@ -51,11 +53,18 @@ export default class App extends Component {
     }
 
     return (
-      <div className="container">
-        {errorMessage}
-        {spinner}
-        {content}
-      </div>
+      <>
+        <Offline>
+          <Alert message="Error" description="There is no connection to the internet!" type="error" showIcon />
+        </Offline>
+        <Online>
+          <div className="container">
+            {errorMessage}
+            {spinner}
+            {content}
+          </div>
+        </Online>
+      </>
     );
   }
 }
