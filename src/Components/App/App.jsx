@@ -24,7 +24,7 @@ export default class App extends Component {
   };
 
   getData = () => {
-    const title = 'Iron';
+    const title = 'return';
     this.mapiService.getMovies(title).then(this.onUpdateList).catch(this.onError);
   };
 

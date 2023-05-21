@@ -16,6 +16,10 @@
   width: 183px;
   vertical-align: bottom;
   background-color: #dddddd;
+  background-image: url('./no-image.svg');
+  background-repeat: no-repeat;
+  background-size: 40%;
+  background-position: center;
 }
 
 .card__title {
