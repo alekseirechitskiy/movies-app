@@ -5,7 +5,7 @@ import Spinner from '../spinner';
 import List from '../list';
 import ErrorMessage from '../errorMessage';
 
-import './app.css';
+import './App.css';
 
 export default class App extends Component {
   mapiService = new MapiService();
@@ -22,7 +22,7 @@ export default class App extends Component {
   };
 
   getData = () => {
-    const title = 'matrix';
+    const title = 'ultra';
     this.mapiService.getMovies(title).then(this.onUpdateList).catch(this.onError);
   };
 
