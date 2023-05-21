@@ -11,8 +11,9 @@
 }
 
 .card__image {
+  flex-shrink: 0;
   height: auto;
-  min-width: 183px;
+  width: 183px;
   vertical-align: bottom;
   background-color: #dddddd;
 }
