@@ -6,22 +6,26 @@ import MapiService from '../../services/mapiService.js';
 import Spinner from '../Spinner/index.js';
 import List from '../List/index.js';
 import ErrorMessage from '../CrrorMessage/index.js';
+import Search from '../Search';
 
 import './App.css';
 
 export default class App extends Component {
   mapiService = new MapiService();
 
-  constructor() {
-    super();
-    this.getData();
-  }
-
   state = {
     resultsArray: [],
     loading: true,
     error: false,
   };
+
+  constructor() {
+    super();
+  }
+
+  componentDidMount() {
+    this.getData();
+  }
 
   getData = () => {
     const title = 'return';
@@ -59,6 +63,7 @@ export default class App extends Component {
         </Offline>
         <Online>
           <div className="container">
+            <Search />
             {errorMessage}
             {spinner}
             {content}
