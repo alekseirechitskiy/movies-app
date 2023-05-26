@@ -67,4 +67,7 @@
   font-size: 12px;
   line-height: 22px;
   overflow: hidden;
+  /* margin: 0; */
+  /* border: 1px solid black; */
+  max-height: 130px;
 }

@@ -37,9 +37,10 @@ export default class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.state.text !== prevState.text) {
       this.getData(this.state.text, this.state.currentPage);
-      console.log('this.state.currentPage: ', this.state.currentPage);
-      console.log('componentDidUpdate TEXT');
+      // console.log('this.state.currentPage: ', this.state.currentPage);
+      // console.log('componentDidUpdate TEXT');
     }
+
     if (this.state.currentPage !== prevState.currentPage && this.state.text === prevState.text) {
       console.log('componentDidUpdate PAGE');
     }

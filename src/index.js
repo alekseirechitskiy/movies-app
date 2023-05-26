@@ -4,11 +4,7 @@ import ReactDOM from 'react-dom/client';
 import App from './Components/App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+root.render(<App />);
 
 // 'https://api.themoviedb.org/3/search/movie?query=return&include_adult=false&language=en-US&page=1&api_key=67794c82b9038fd6aca2a93ec32186a6';
 

@@ -20,15 +20,44 @@ export default class Card extends Component {
     super();
   }
 
-  checkTextHeight() {
-    const textBlock = document.querySelector('.card__text');
-    console.dir(textBlock);
-  }
+  // checkTextHeight() {
+  //   // const textBlock = document.querySelector('.card__text');
+  //   // console.dir(textBlock.textContent);
+  //   // const textArray = textBlock.textContent.split(' ');
+  //   // console.log('textArray: ', textArray);
+
+  //   // textArray.length = textArray.length - 20;
+  //   // console.log('NEWtextArray: ', textArray);
+
+  //   // const newString = textArray.join(' ');
+  //   // console.log('newString: ', newString);
+
+  //   const titleHight = document.querySelector('.card__title').offsetHeight + 7;
+  //   const dateHight = document.querySelector('.card__date').offsetHeight + 9;
+  //   const lablesHight = document.querySelector('.card__lables').offsetHeight + 9;
+  //   const countedTextHight = 260 - (titleHight + dateHight + lablesHight);
+
+  //   const textHight = document.querySelector('.card__text');
+  //   textHight.style.height = countedTextHight;
+
+  //   console.log('countedTextHight: ', countedTextHight);
+  //   console.log('sattTextHight: ', textHight.offsetHeight);
+  //   // console.log(titleHight, '+', dateHight, '+', lablesHight);
+  //   // console.log('titleHight: ', titleHight);
+  //   // console.log('dateHight: ', dateHight);
+  //   // console.log('lablesHight: ', lablesHight);
+  // }
+
+  // componentDidMount() {
+  //   this.checkTextHeight();
+  // }
 
   render() {
+    console.log(this);
     const { title, release_date: releaseDate, overview, poster_path: posterPath } = this.props.movieInfo;
-    // console.log(this.props.movieInfo.id, this.props.movieInfo.poster_path);
+    const index = this.props.cardIndex;
 
+    // console.log(this.props.movieInfo.id, this.props.movieInfo.poster_path);
     return (
       <div className="card">
         <img className="card__image" src={`https://image.tmdb.org/t/p/w500/${posterPath}`} alt={`${title}'s poster`} />
@@ -39,8 +68,11 @@ export default class Card extends Component {
             <span className="card__label">Action</span>
             <span className="card__label">Drama</span>
           </div>
-          <p className="card__text">{overview}</p>
+          <p style={{ height: this.props.heightsArray[index] + 'px' }} className="card__text">
+            {overview}
+          </p>
         </div>
+        <div></div>
       </div>
     );
   }
