@@ -7,7 +7,7 @@
 }
 
 .card__content {
-  padding: 10px 20px;
+  padding: 10px 10px 10px 20px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -41,6 +41,7 @@
 }
 
 .card__rate {
+  flex-shrink: 0;
   top: 10px;
   right: 10px;
   width: 30px;
@@ -101,4 +102,37 @@
   overflow: hidden;
   max-height: 110px;
   margin-bottom: auto;
+}
+
+@media (max-width: 1120px) {
+  .card {
+    display: flex;
+    justify-content: flex-start;
+    height: 245px;
+    padding: 10px;
+  }
+
+  .card__image {
+    height: 91px;
+    width: 60px;
+    margin-right: 10px;
+  }
+
+  .card__content {
+    padding: 0;
+    flex-grow: 1;
+  }
+
+  .card__title {
+    max-width: 100%;
+  }
+
+  .card__text {
+    margin-left: -70px;
+  }
+
+  .card__rate-stars {
+    align-self: flex-end;
+    margin-left: -16px;
+  }
 }

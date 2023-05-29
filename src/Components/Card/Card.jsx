@@ -54,8 +54,8 @@ export default class Card extends Component {
           <p style={{ height: this.props.heightsArray[index] + 'px' }} className="card__text">
             {overview}
           </p>
-          <div className="card__rate-stars"></div>
           <Rate
+            className="card__rate-stars"
             style={{
               fontSize: 18,
             }}

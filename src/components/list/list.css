@@ -7,3 +7,11 @@
   gap: 36px;
   list-style: none;
 }
+
+@media (max-width: 1120px) {
+  .list {
+    grid-template-columns: 1fr;
+    padding: 20px 15px;
+    gap: 20px;
+  }
+}

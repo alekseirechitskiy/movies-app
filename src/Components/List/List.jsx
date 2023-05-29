@@ -20,11 +20,6 @@ export default class List extends Component {
     );
   }
 
-  // checkTextHeight() {
-  //   const textBlock = document.querySelector('.card__text');
-  //   console.log(textBlock);
-  // }
-
   checkTextHeight() {
     const cards = document.querySelectorAll('.card');
     const cardsArray = Array.from(cards);
