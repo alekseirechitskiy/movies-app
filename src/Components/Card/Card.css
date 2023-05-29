@@ -8,6 +8,9 @@
 
 .card__content {
   padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .card__image {
@@ -22,6 +25,11 @@
   background-position: center;
 }
 
+.card__title-box {
+  display: flex;
+  justify-content: space-between;
+}
+
 .card__title {
   margin: 0;
   margin-bottom: 7px;
@@ -29,6 +37,30 @@
   font-weight: 400;
   font-size: 20px;
   line-height: 28px;
+  max-width: 205px;
+}
+
+.card__rate {
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #e90000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  font-size: 12px;
+}
+
+.card__rate.card__rate--above3 {
+  border-color: #e97e00;
+}
+.card__rate.card__rate--above5 {
+  border-color: #e9d100;
+}
+.card__rate.card__rate--above7 {
+  border-color: #66e900;
 }
 
 .card__date {
@@ -67,7 +99,6 @@
   font-size: 12px;
   line-height: 22px;
   overflow: hidden;
-  /* margin: 0; */
-  /* border: 1px solid black; */
-  max-height: 130px;
+  max-height: 110px;
+  margin-bottom: auto;
 }

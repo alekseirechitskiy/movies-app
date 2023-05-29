@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Offline, Online } from 'react-detect-offline';
-import { Alert } from 'antd';
+import { Alert, Tabs } from 'antd';
 import { debounce } from 'lodash';
 
 import MapiService from '../../services/mapiService.js';
@@ -15,14 +15,30 @@ import './App.css';
 export default class App extends Component {
   mapiService = new MapiService();
 
+  tabsItems = [
+    {
+      key: 'search',
+      label: 'Search',
+    },
+    {
+      key: 'rated',
+      label: 'Rated',
+    },
+  ];
+
+  genresArray = [];
+
   state = {
     text: '',
     currentPage: 1,
+    currentTabKey: 'search',
     totalPages: null,
     totalResults: null,
     resultsArray: [],
-    loading: true,
+    loading: false,
     error: false,
+    sessionId: '',
+    ratedArray: [],
   };
 
   constructor() {
@@ -31,14 +47,22 @@ export default class App extends Component {
 
   componentDidMount() {
     // this.getData(this.state.text);
-    this.setState({ loading: false, error: false });
+    this.mapiService
+      .getGenres()
+      .then((res) => (this.genresArray = res))
+      .catch(this.onError);
+    this.mapiService
+      .createGuestSession()
+      .then((res) => {
+        this.setState({ sessionId: res });
+      })
+      .catch(this.onError);
+    // this.setState({ loading: false, error: false });
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.text !== prevState.text) {
       this.getData(this.state.text, this.state.currentPage);
-      // console.log('this.state.currentPage: ', this.state.currentPage);
-      // console.log('componentDidUpdate TEXT');
     }
 
     if (this.state.currentPage !== prevState.currentPage && this.state.text === prevState.text) {
@@ -82,14 +106,21 @@ export default class App extends Component {
   };
 
   onChangePage = (page) => {
-    console.log(page);
     this.setState({ currentPage: page });
-    console.log();
     this.mapiService.getMovies(this.state.text, page).then(this.onUpdateList).catch(this.onError);
+  };
+
+  changeCurrentTabKey = (key) => {
+    this.setState({
+      currentTabKey: key,
+      // loading: true,
+    });
   };
 
   render() {
     const { resultsArray, loading, error } = this.state;
+
+    const searchBar = this.state.currentTabKey === 'search' ? <Search onSearchChange={this.onSearchChange} /> : null;
 
     const hasData = !(loading || error);
 
@@ -108,8 +139,17 @@ export default class App extends Component {
         </Offline>
         <Online>
           <div className="container">
-            <Search onSearchChange={this.onSearchChange} />
+            <Tabs
+              className=""
+              destroyInactiveTabPane={true}
+              centered
+              size={'large'}
+              onChange={this.changeCurrentTabKey}
+              defaultActiveKey={this.state.currentTabKey}
+              items={this.tabsItems}
+            />
             <div className="view">
+              {searchBar}
               {errorMessage}
               {spinner}
               <>
@@ -129,4 +169,25 @@ export default class App extends Component {
       </>
     );
   }
+}
+
+{
+  /* <>
+  <Search onSearchChange={this.onSearchChange} />
+  <div className="view">
+    {errorMessage}
+    {spinner}
+    <>
+      {resultsArray.length === 0 ? 'Movie not found' : content}
+      {this.state.totalPages ? (
+        <PaginationComponent
+          pages={this.state.totalPages}
+          currentPage={this.state.currentPage}
+          totalResults={this.state.totalResults}
+          onPageChange={this.onChangePage}
+        />
+      ) : null}
+    </>
+  </div>
+</>; */
 }

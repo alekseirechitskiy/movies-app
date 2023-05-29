@@ -33,11 +33,10 @@ export default class List extends Component {
       const dateHight = card.querySelector('.card__date').offsetHeight + 9;
       const lablesHight = card.querySelector('.card__lables').offsetHeight + 9;
       const countedTextHight = 260 - (titleHight + dateHight + lablesHight);
-      console.log('countedTextHight: ', countedTextHight);
+
       return countedTextHight;
     });
-    console.log('heightsArray: ', heightsArray);
-    console.log(' cardsArray: ', cardsArray);
+
     return heightsArray;
   }
 

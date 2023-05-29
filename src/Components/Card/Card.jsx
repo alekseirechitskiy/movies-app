@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { format } from 'date-fns';
-
 // import MapiService from '../../services/mapi-service';
+import { Rate } from 'antd';
 
 import './Card.css';
 // import image from './card.jpg';
@@ -9,60 +9,43 @@ import './Card.css';
 export default class Card extends Component {
   // mapiService = new MapiService();
 
-  // state = {
-  //   title: null,
-  //   releaseDate: null,
-  //   posterPath: null,
-  //   overview: null,
-  // };
-
   constructor() {
     super();
   }
 
-  // checkTextHeight() {
-  //   // const textBlock = document.querySelector('.card__text');
-  //   // console.dir(textBlock.textContent);
-  //   // const textArray = textBlock.textContent.split(' ');
-  //   // console.log('textArray: ', textArray);
-
-  //   // textArray.length = textArray.length - 20;
-  //   // console.log('NEWtextArray: ', textArray);
-
-  //   // const newString = textArray.join(' ');
-  //   // console.log('newString: ', newString);
-
-  //   const titleHight = document.querySelector('.card__title').offsetHeight + 7;
-  //   const dateHight = document.querySelector('.card__date').offsetHeight + 9;
-  //   const lablesHight = document.querySelector('.card__lables').offsetHeight + 9;
-  //   const countedTextHight = 260 - (titleHight + dateHight + lablesHight);
-
-  //   const textHight = document.querySelector('.card__text');
-  //   textHight.style.height = countedTextHight;
-
-  //   console.log('countedTextHight: ', countedTextHight);
-  //   console.log('sattTextHight: ', textHight.offsetHeight);
-  //   // console.log(titleHight, '+', dateHight, '+', lablesHight);
-  //   // console.log('titleHight: ', titleHight);
-  //   // console.log('dateHight: ', dateHight);
-  //   // console.log('lablesHight: ', lablesHight);
-  // }
-
-  // componentDidMount() {
-  //   this.checkTextHeight();
-  // }
-
   render() {
-    console.log(this);
-    const { title, release_date: releaseDate, overview, poster_path: posterPath } = this.props.movieInfo;
+    const {
+      title,
+      vote_average: voteAverage,
+      release_date: releaseDate,
+      overview,
+      poster_path: posterPath,
+    } = this.props.movieInfo;
+
     const index = this.props.cardIndex;
 
-    // console.log(this.props.movieInfo.id, this.props.movieInfo.poster_path);
+    // console.log(voteAverage);
+
+    let rateColor = 'card__rate';
+
+    if (voteAverage >= 3) {
+      rateColor += ' card__rate--above3';
+    }
+    if (voteAverage >= 5) {
+      rateColor += ' card__rate--above5';
+    }
+    if (voteAverage >= 7) {
+      rateColor += ' card__rate--above7';
+    }
+
     return (
       <div className="card">
         <img className="card__image" src={`https://image.tmdb.org/t/p/w500/${posterPath}`} alt={`${title}'s poster`} />
         <div className="card__content">
-          <h2 className="card__title">{title}</h2>
+          <div className="card__title-box">
+            <h2 className="card__title">{title}</h2>
+            <div className={rateColor}>{voteAverage.toFixed(1)}</div>
+          </div>
           <span className="card__date">{releaseDate ? format(new Date(releaseDate), 'MMMM dd, yyyy') : ''} </span>
           <div className="card__lables">
             <span className="card__label">Action</span>
@@ -71,8 +54,15 @@ export default class Card extends Component {
           <p style={{ height: this.props.heightsArray[index] + 'px' }} className="card__text">
             {overview}
           </p>
+          <div className="card__rate-stars"></div>
+          <Rate
+            style={{
+              fontSize: 18,
+            }}
+            allowHalf
+            count={10}
+          />
         </div>
-        <div></div>
       </div>
     );
   }
