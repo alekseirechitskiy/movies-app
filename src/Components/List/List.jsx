@@ -41,7 +41,7 @@ export default class List extends Component {
 
   render() {
     const { data } = this.props;
-    console.log('this.props: ', this.props);
+    // console.log('this.props: ', this.props);
 
     const movieCard = data.map((el, idx) => this.renderListItem(el, idx));
 

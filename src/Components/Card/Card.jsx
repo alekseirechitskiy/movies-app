@@ -1,28 +1,44 @@
 import React, { Component } from 'react';
 import { format } from 'date-fns';
-// import MapiService from '../../services/mapi-service';
 import { Rate } from 'antd';
+
+// import MapiService from '../../services/mapiService';
 
 import './Card.css';
 // import image from './card.jpg';
 
 export default class Card extends Component {
-  // mapiService = new MapiService();
-
   constructor() {
     super();
   }
 
+  renderGenerLabel = (listItem, itemIndex) => {
+    return (
+      <span key={itemIndex} className="card__label">
+        {listItem}
+      </span>
+    );
+  };
+
+  defineGenre = () => {};
+
   render() {
+    // console.log('GENRES IN CARD: ', this.state.genresArray);
+
     const {
       title,
       vote_average: voteAverage,
       release_date: releaseDate,
+      genre_ids: genreIds,
       overview,
       poster_path: posterPath,
     } = this.props.movieInfo;
 
     const index = this.props.cardIndex;
+
+    console.log(genreIds);
+
+    const genreLabel = genreIds.map((el, idx) => this.renderGenerLabel(el, idx));
 
     // console.log(voteAverage);
 
@@ -48,8 +64,14 @@ export default class Card extends Component {
           </div>
           <span className="card__date">{releaseDate ? format(new Date(releaseDate), 'MMMM dd, yyyy') : ''} </span>
           <div className="card__lables">
-            <span className="card__label">Action</span>
-            <span className="card__label">Drama</span>
+            {genreLabel}
+            {/* {genreIds.map((el, idx) => (
+              <span key={idx} className="card__label">
+                {el}
+              </span>
+            ))} */}
+            {/* <span className="card__label">Action</span>
+            <span className="card__label">Drama</span> */}
           </div>
           <p style={{ height: this.props.heightsArray[index] + 'px' }} className="card__text">
             {overview}

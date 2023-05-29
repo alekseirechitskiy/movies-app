@@ -47,10 +47,10 @@ export default class App extends Component {
 
   componentDidMount() {
     // this.getData(this.state.text);
-    this.mapiService
-      .getGenres()
-      .then((res) => (this.genresArray = res))
-      .catch(this.onError);
+    // this.mapiService
+    //   .getGenres()
+    //   .then((res) => (this.genresArray = res))
+    //   .catch(this.onError);
     this.mapiService
       .createGuestSession()
       .then((res) => {
@@ -118,6 +118,7 @@ export default class App extends Component {
   };
 
   render() {
+    // console.log('GENRES IN APP: ', this.genresArray);
     const { resultsArray, loading, error } = this.state;
 
     const searchBar = this.state.currentTabKey === 'search' ? <Search onSearchChange={this.onSearchChange} /> : null;
