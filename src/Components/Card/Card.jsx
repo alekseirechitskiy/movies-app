@@ -32,11 +32,11 @@ export default class Card extends Component {
       genre_ids: genreIds,
       overview,
       poster_path: posterPath,
+      id,
     } = this.props.movieInfo;
 
     const index = this.props.cardIndex;
-
-    console.log(genreIds);
+    const star = this.props.star;
 
     const genreLabel = genreIds.map((el, idx) => this.renderGenerLabel(el, idx));
 
@@ -83,6 +83,7 @@ export default class Card extends Component {
             }}
             allowHalf
             count={10}
+            onChange={(value) => star(value, id, this.props.movieInfo)}
           />
         </div>
       </div>

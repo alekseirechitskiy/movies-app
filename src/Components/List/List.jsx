@@ -15,7 +15,7 @@ export default class List extends Component {
   renderListItem(listItem, itemIndex) {
     return (
       <li key={listItem.id}>
-        <Card movieInfo={listItem} heightsArray={this.checkTextHeight()} cardIndex={itemIndex} />
+        <Card movieInfo={listItem} heightsArray={this.checkTextHeight()} cardIndex={itemIndex} star={this.props.star} />
       </li>
     );
   }

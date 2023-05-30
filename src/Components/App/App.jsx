@@ -47,10 +47,10 @@ export default class App extends Component {
 
   componentDidMount() {
     // this.getData(this.state.text);
-    // this.mapiService
-    //   .getGenres()
-    //   .then((res) => (this.genresArray = res))
-    //   .catch(this.onError);
+    this.mapiService
+      .getGenres()
+      .then((res) => (this.genresArray = res))
+      .catch(this.onError);
     this.mapiService
       .createGuestSession()
       .then((res) => {
@@ -111,15 +111,61 @@ export default class App extends Component {
   };
 
   changeCurrentTabKey = (key) => {
+    this.displayRatedList();
     this.setState({
       currentTabKey: key,
       // loading: true,
     });
   };
 
+  star = (value, id, obj) => {
+    // console.log('STAR', value, 'MOVIE ID: ', id);
+
+    this.setState(({ ratedArray }) => {
+      const newArray = [...ratedArray];
+      console.log('newArray: ', newArray);
+
+      // Checking for already existing record
+      const idx = newArray.findIndex((el) => el.id === id);
+      if (idx !== -1) {
+        const oldItem = newArray[idx];
+        const newItem = { ...oldItem, myRate: value };
+        const editedArray = [...newArray.slice(0, idx), newItem, ...newArray.slice(idx + 1)];
+
+        return {
+          ratedArray: editedArray,
+        };
+      }
+
+      // Add a new record
+      const newRecord = this.createRateRecord(value, obj);
+      newArray.push(newRecord);
+
+      return {
+        ratedArray: newArray,
+      };
+    });
+  };
+
+  createRateRecord = (rate, obj) => {
+    // return {
+    //   rate,
+    //   id,
+    // };
+    const movieInfo = JSON.parse(JSON.stringify(obj));
+    const record = { ...movieInfo, myRate: rate };
+    return record;
+  };
+
+  displayRatedList = () => {
+    console.log('You have clicked on tab', this.state.currentTabKey);
+    if (this.state.currentTabKey === 'rated') console.log(this.props.ratedArray);
+  };
+
   render() {
+    console.log('ratedArray from RENDER: ', this.state.ratedArray);
     // console.log('GENRES IN APP: ', this.genresArray);
-    const { resultsArray, loading, error } = this.state;
+    const { ratedArray, resultsArray, loading, error } = this.state;
 
     const searchBar = this.state.currentTabKey === 'search' ? <Search onSearchChange={this.onSearchChange} /> : null;
 
@@ -127,7 +173,18 @@ export default class App extends Component {
 
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null;
-    const content = hasData ? <List data={resultsArray} /> : 'No results';
+    // const content = hasData ? <List data={resultsArray} star={this.star} /> : 'No results';
+    let content = '';
+
+    if (hasData && this.state.currentTabKey === 'search') {
+      console.log('SEARCH TAB');
+      content = <List data={resultsArray} star={this.star} />;
+    }
+
+    if (hasData && this.state.currentTabKey === 'rated') {
+      console.log('RATED TAB');
+      content = <List data={ratedArray} star={this.star} />;
+    }
 
     if (loading) {
       return <Spinner />;
@@ -155,12 +212,20 @@ export default class App extends Component {
               {spinner}
               <>
                 {resultsArray.length === 0 ? 'Movie not found' : content}
-                {this.state.totalPages ? (
+                {this.state.totalPages && this.state.currentTabKey === 'search' ? (
                   <PaginationComponent
                     pages={this.state.totalPages}
                     currentPage={this.state.currentPage}
                     totalResults={this.state.totalResults}
                     onPageChange={this.onChangePage}
+                  />
+                ) : null}
+                {this.state.totalPages && this.state.currentTabKey === 'rated' ? (
+                  <PaginationComponent
+                  // pages={Math.ceil(this.state.ratedArray.length / 20)}
+                  // currentPage={1}
+                  // totalResults={this.state.ratedArray.length}
+                  // onPageChange={this.onChangePage}
                   />
                 ) : null}
               </>
