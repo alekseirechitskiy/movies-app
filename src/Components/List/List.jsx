@@ -26,7 +26,7 @@ export default class List extends Component {
     const heightsArray = cardsArray.map((card) => {
       const titleHight = card.querySelector('.card__title').offsetHeight + 7;
       const dateHight = card.querySelector('.card__date').offsetHeight + 9;
-      const lablesHight = card.querySelector('.card__lables').offsetHeight + 9;
+      const lablesHight = card.querySelector('.card__labels').offsetHeight + 9;
       const countedTextHight = 260 - (titleHight + dateHight + lablesHight);
 
       return countedTextHight;

@@ -9,6 +9,7 @@ import List from '../List/index.js';
 import ErrorMessage from '../ErrorMessage/index.js';
 import Search from '../Search';
 import PaginationComponent from '../PaginationComponent';
+import { MovieProvider } from '../../Context';
 
 import './App.css';
 
@@ -192,46 +193,48 @@ export default class App extends Component {
 
     return (
       <>
-        <Offline>
-          <Alert message="Error" description="There is no connection to the internet!" type="error" showIcon />
-        </Offline>
-        <Online>
-          <div className="container">
-            <Tabs
-              className=""
-              destroyInactiveTabPane={true}
-              centered
-              size={'large'}
-              onChange={this.changeCurrentTabKey}
-              defaultActiveKey={this.state.currentTabKey}
-              items={this.tabsItems}
-            />
-            <div className="view">
-              {searchBar}
-              {errorMessage}
-              {spinner}
-              <>
-                {resultsArray.length === 0 ? 'Movie not found' : content}
-                {this.state.totalPages && this.state.currentTabKey === 'search' ? (
-                  <PaginationComponent
-                    pages={this.state.totalPages}
-                    currentPage={this.state.currentPage}
-                    totalResults={this.state.totalResults}
-                    onPageChange={this.onChangePage}
-                  />
-                ) : null}
-                {this.state.totalPages && this.state.currentTabKey === 'rated' ? (
-                  <PaginationComponent
-                  // pages={Math.ceil(this.state.ratedArray.length / 20)}
-                  // currentPage={1}
-                  // totalResults={this.state.ratedArray.length}
-                  // onPageChange={this.onChangePage}
-                  />
-                ) : null}
-              </>
+        <MovieProvider value={this.genresArray}>
+          <Offline>
+            <Alert message="Error" description="There is no connection to the internet!" type="error" showIcon />
+          </Offline>
+          <Online>
+            <div className="container">
+              <Tabs
+                className=""
+                destroyInactiveTabPane={true}
+                centered
+                size={'large'}
+                onChange={this.changeCurrentTabKey}
+                defaultActiveKey={this.state.currentTabKey}
+                items={this.tabsItems}
+              />
+              <div className="view">
+                {searchBar}
+                {errorMessage}
+                {spinner}
+                <>
+                  {resultsArray.length === 0 ? 'Movie not found' : content}
+                  {this.state.totalPages && this.state.currentTabKey === 'search' ? (
+                    <PaginationComponent
+                      pages={this.state.totalPages}
+                      currentPage={this.state.currentPage}
+                      totalResults={this.state.totalResults}
+                      onPageChange={this.onChangePage}
+                    />
+                  ) : null}
+                  {this.state.totalPages && this.state.currentTabKey === 'rated' ? (
+                    <PaginationComponent
+                    // pages={Math.ceil(this.state.ratedArray.length / 20)}
+                    // currentPage={1}
+                    // totalResults={this.state.ratedArray.length}
+                    // onPageChange={this.onChangePage}
+                    />
+                  ) : null}
+                </>
+              </div>
             </div>
-          </div>
-        </Online>
+          </Online>
+        </MovieProvider>
       </>
     );
   }

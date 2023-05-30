@@ -74,7 +74,8 @@
   margin-bottom: 9px;
 }
 
-.card__lables {
+.card__labels {
+  padding: 0;
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 7px;
