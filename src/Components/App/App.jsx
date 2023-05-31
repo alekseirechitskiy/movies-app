@@ -36,7 +36,7 @@ export default class App extends Component {
     totalPages: null,
     totalResults: null,
     resultsArray: [],
-    loading: false,
+    loading: true,
     error: false,
     sessionId: '',
     ratedArray: [],
@@ -58,7 +58,7 @@ export default class App extends Component {
         this.setState({ sessionId: res });
       })
       .catch(this.onError);
-    // this.setState({ loading: false, error: false });
+    this.setState({ loading: false, error: false });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -82,7 +82,7 @@ export default class App extends Component {
   }, 1000);
 
   onUpdateList = (data) => {
-    console.log('data: ', data);
+    // console.log('data: ', data);
     return this.setState({
       currentPage: data.page,
       resultsArray: data.results,
@@ -112,7 +112,7 @@ export default class App extends Component {
   };
 
   changeCurrentTabKey = (key) => {
-    this.displayRatedList();
+    // this.displayRatedList();
     this.setState({
       currentTabKey: key,
       // loading: true,
@@ -120,11 +120,8 @@ export default class App extends Component {
   };
 
   star = (value, id, obj) => {
-    // console.log('STAR', value, 'MOVIE ID: ', id);
-
     this.setState(({ ratedArray }) => {
       const newArray = [...ratedArray];
-      console.log('newArray: ', newArray);
 
       // Checking for already existing record
       const idx = newArray.findIndex((el) => el.id === id);
@@ -149,23 +146,16 @@ export default class App extends Component {
   };
 
   createRateRecord = (rate, obj) => {
-    // return {
-    //   rate,
-    //   id,
-    // };
     const movieInfo = JSON.parse(JSON.stringify(obj));
     const record = { ...movieInfo, myRate: rate };
     return record;
   };
 
   displayRatedList = () => {
-    console.log('You have clicked on tab', this.state.currentTabKey);
     if (this.state.currentTabKey === 'rated') console.log(this.props.ratedArray);
   };
 
   render() {
-    console.log('ratedArray from RENDER: ', this.state.ratedArray);
-    // console.log('GENRES IN APP: ', this.genresArray);
     const { ratedArray, resultsArray, loading, error } = this.state;
 
     const searchBar = this.state.currentTabKey === 'search' ? <Search onSearchChange={this.onSearchChange} /> : null;
@@ -178,12 +168,10 @@ export default class App extends Component {
     let content = '';
 
     if (hasData && this.state.currentTabKey === 'search') {
-      console.log('SEARCH TAB');
       content = <List data={resultsArray} star={this.star} />;
     }
 
     if (hasData && this.state.currentTabKey === 'rated') {
-      console.log('RATED TAB');
       content = <List data={ratedArray} star={this.star} />;
     }
 
@@ -224,10 +212,10 @@ export default class App extends Component {
                   ) : null}
                   {this.state.totalPages && this.state.currentTabKey === 'rated' ? (
                     <PaginationComponent
-                    // pages={Math.ceil(this.state.ratedArray.length / 20)}
-                    // currentPage={1}
-                    // totalResults={this.state.ratedArray.length}
-                    // onPageChange={this.onChangePage}
+                      // pages={Math.ceil(this.state.ratedArray.length / 20)}
+                      currentPage={1}
+                      // totalResults={this.state.ratedArray.length}
+                      onPageChange={this.onChangePage}
                     />
                   ) : null}
                 </>

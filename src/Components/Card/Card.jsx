@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import { format } from 'date-fns';
 import { Rate } from 'antd';
 
-// import MapiService from '../../services/mapiService';
 import { MovieConsumer } from '../../Context';
 import './Card.css';
-// import image from './card.jpg';
 
 export default class Card extends Component {
   constructor() {
@@ -20,21 +18,7 @@ export default class Card extends Component {
     );
   };
 
-  defineGenre = () => {};
-
-  // getGenresName = (genresIds, arrGenresObj) => {
-  //   if (!genresIds) {
-  //     return;
-  //   }
-  //   const names = genresIds.map((id) => arrGenresObj.find((obj) => obj.id === id)).filter((obj) => obj !== undefined);
-
-  //   console.log('names: ', names);
-  //   return names;
-  // };
-
   render() {
-    // console.log('GENRES IN CARD: ', this.state.genresArray);
-
     const {
       title,
       vote_average: voteAverage,
@@ -43,14 +27,11 @@ export default class Card extends Component {
       overview,
       poster_path: posterPath,
       id,
+      myRate,
     } = this.props.movieInfo;
 
     const index = this.props.cardIndex;
     const star = this.props.star;
-
-    // const genreLabel = genreIds.map((el, idx) => this.renderGenerLabel(el, idx));
-
-    // console.log(voteAverage);
 
     let rateColor = 'card__rate';
 
@@ -79,12 +60,10 @@ export default class Card extends Component {
                 return genreIds.map((el, idx) => (
                   <span key={idx} className="card__label">
                     {genreLabel.map((item) => {
-                      console.log('item: ', item.id);
                       if (item.id === el) return item.name;
                     })}
                   </span>
                 ));
-                // return <span className="card__label">{genreIds}</span>;
               }}
             </MovieConsumer>
           </ul>
@@ -98,38 +77,11 @@ export default class Card extends Component {
             }}
             allowHalf
             count={10}
+            defaultValue={myRate ? myRate : 0}
             onChange={(value) => star(value, id, this.props.movieInfo)}
           />
         </div>
       </div>
     );
   }
-}
-
-{
-  /* <MovieConsumer>
-  {() => {
-    return genreIds.map((el) => (
-      <span key={id} className="card__label">
-        {el}
-      </span>
-    ));
-    // return <span className="card__label">{genreIds}</span>;
-  }}
-</MovieConsumer>; */
-}
-
-{
-  /* {genreLabel} */
-}
-{
-  /* {genreIds.map((el, idx) => (
-              <span key={idx} className="card__label">
-                {el}
-              </span>
-            ))} */
-}
-{
-  /* <span className="card__label">Action</span>
-            <span className="card__label">Drama</span> */
 }
