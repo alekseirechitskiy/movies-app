@@ -8,7 +8,6 @@ import Spinner from '../Spinner/index.js';
 import List from '../List/index.js';
 import ErrorMessage from '../ErrorMessage/index.js';
 import Search from '../Search';
-import PaginationComponent from '../PaginationComponent';
 import { MovieProvider } from '../../Context';
 
 import './App.css';
@@ -36,7 +35,7 @@ export default class App extends Component {
     totalPages: null,
     totalResults: null,
     resultsArray: [],
-    loading: true,
+    loading: false,
     error: false,
     sessionId: '',
     ratedArray: [],
@@ -47,7 +46,6 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    // this.getData(this.state.text);
     this.mapiService
       .getGenres()
       .then((res) => (this.genresArray = res))
@@ -65,10 +63,6 @@ export default class App extends Component {
     if (this.state.text !== prevState.text) {
       this.getData(this.state.text, this.state.currentPage);
     }
-
-    if (this.state.currentPage !== prevState.currentPage && this.state.text === prevState.text) {
-      console.log('componentDidUpdate PAGE');
-    }
   }
 
   onSearchChange = (e) => {
@@ -78,11 +72,13 @@ export default class App extends Component {
 
   getData = debounce((title) => {
     // const title = 'matrix';
+    this.setState({
+      loading: true,
+    });
     this.mapiService.getMovies(title).then(this.onUpdateList).catch(this.onError);
-  }, 1000);
+  }, 500);
 
   onUpdateList = (data) => {
-    // console.log('data: ', data);
     return this.setState({
       currentPage: data.page,
       resultsArray: data.results,
@@ -96,30 +92,19 @@ export default class App extends Component {
     this.setState({ error: true, loading: false });
   };
 
-  changePage = (page) => {
-    this.setState({ currentPage: page });
-    console.log('this.state: ', this.state);
-  };
-
-  pagOnChange = () => {
-    console.log('from pagOnChange');
-    this.changePage();
-  };
-
   onChangePage = (page) => {
-    this.setState({ currentPage: page });
+    this.setState({ currentPage: page, loading: true });
     this.mapiService.getMovies(this.state.text, page).then(this.onUpdateList).catch(this.onError);
   };
 
   changeCurrentTabKey = (key) => {
-    // this.displayRatedList();
     this.setState({
       currentTabKey: key,
-      // loading: true,
     });
   };
 
-  star = (value, id, obj) => {
+  // star = (value, id, obj) => {
+  setRate = (value, id, obj) => {
     this.setState(({ ratedArray }) => {
       const newArray = [...ratedArray];
 
@@ -158,93 +143,61 @@ export default class App extends Component {
   render() {
     const { ratedArray, resultsArray, loading, error } = this.state;
 
-    const searchBar = this.state.currentTabKey === 'search' ? <Search onSearchChange={this.onSearchChange} /> : null;
-
     const hasData = !(loading || error);
 
+    const searchBar =
+      this.state.currentTabKey === 'search' ? (
+        <Search onSearchChange={this.onSearchChange} inputValue={this.state.text} />
+      ) : null;
+
     const errorMessage = error ? <ErrorMessage /> : null;
+
     const spinner = loading ? <Spinner /> : null;
-    // const content = hasData ? <List data={resultsArray} star={this.star} /> : 'No results';
-    let content = '';
+    let content;
+
+    const noContent = loading ? null : 'Movie not found';
 
     if (hasData && this.state.currentTabKey === 'search') {
-      content = <List data={resultsArray} star={this.star} />;
+      content = (
+        <List
+          data={resultsArray}
+          totalPages={this.state.totalPages}
+          currentTabKey={this.state.currentTabKey}
+          currentPage={this.state.currentPage}
+          totalResults={this.state.totalResults}
+          onPageChange={this.onChangePage}
+          setRate={this.setRate}
+        />
+      );
     }
 
     if (hasData && this.state.currentTabKey === 'rated') {
       content = <List data={ratedArray} star={this.star} />;
     }
 
-    if (loading) {
-      return <Spinner />;
-    }
-
     return (
-      <>
-        <MovieProvider value={this.genresArray}>
+      <MovieProvider value={this.genresArray}>
+        <div className="container">
           <Offline>
             <Alert message="Error" description="There is no connection to the internet!" type="error" showIcon />
           </Offline>
           <Online>
-            <div className="container">
-              <Tabs
-                className=""
-                destroyInactiveTabPane={true}
-                centered
-                size={'large'}
-                onChange={this.changeCurrentTabKey}
-                defaultActiveKey={this.state.currentTabKey}
-                items={this.tabsItems}
-              />
-              <div className="view">
-                {searchBar}
-                {errorMessage}
-                {spinner}
-                <>
-                  {resultsArray.length === 0 ? 'Movie not found' : content}
-                  {this.state.totalPages && this.state.currentTabKey === 'search' ? (
-                    <PaginationComponent
-                      pages={this.state.totalPages}
-                      currentPage={this.state.currentPage}
-                      totalResults={this.state.totalResults}
-                      onPageChange={this.onChangePage}
-                    />
-                  ) : null}
-                  {this.state.totalPages && this.state.currentTabKey === 'rated' ? (
-                    <PaginationComponent
-                      // pages={Math.ceil(this.state.ratedArray.length / 20)}
-                      currentPage={1}
-                      // totalResults={this.state.ratedArray.length}
-                      onPageChange={this.onChangePage}
-                    />
-                  ) : null}
-                </>
-              </div>
-            </div>
+            <Tabs
+              className=""
+              destroyInactiveTabPane={true}
+              centered
+              size={'large'}
+              onChange={this.changeCurrentTabKey}
+              defaultActiveKey={this.state.currentTabKey}
+              items={this.tabsItems}
+            />
+            {searchBar}
+            {errorMessage}
+            {spinner}
+            {resultsArray.length === 0 ? noContent : content}
           </Online>
-        </MovieProvider>
-      </>
+        </div>
+      </MovieProvider>
     );
   }
-}
-
-{
-  /* <>
-  <Search onSearchChange={this.onSearchChange} />
-  <div className="view">
-    {errorMessage}
-    {spinner}
-    <>
-      {resultsArray.length === 0 ? 'Movie not found' : content}
-      {this.state.totalPages ? (
-        <PaginationComponent
-          pages={this.state.totalPages}
-          currentPage={this.state.currentPage}
-          totalResults={this.state.totalResults}
-          onPageChange={this.onChangePage}
-        />
-      ) : null}
-    </>
-  </div>
-</>; */
 }

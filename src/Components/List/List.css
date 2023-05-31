@@ -1,9 +1,9 @@
 .list {
   background-color: #fff;
-  padding: 20px 30px;
+  padding: 20px 0;
   margin: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 451px);
   gap: 36px;
   list-style: none;
 }

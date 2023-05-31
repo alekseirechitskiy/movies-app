@@ -6,16 +6,24 @@ import { MovieConsumer } from '../../Context';
 import './Card.css';
 
 export default class Card extends Component {
+  noOverview = 'For this movie there is no overview yet';
+
   constructor() {
     super();
   }
 
-  renderGenerLabel = (listItem, itemIndex) => {
-    return (
-      <span key={itemIndex} className="card__label">
-        {listItem}
-      </span>
-    );
+  textCutter = (elementText, maxLength, numberOfWords) => {
+    const MAX_LENGTH = maxLength;
+    const NUMBER_OF_WORDS = numberOfWords;
+
+    let cuttedText = elementText;
+
+    if (elementText.length > MAX_LENGTH) {
+      cuttedText = elementText.split(' ').slice(0, NUMBER_OF_WORDS).join(' ');
+      cuttedText = cuttedText + '...';
+    }
+
+    return cuttedText;
   };
 
   render() {
@@ -30,8 +38,7 @@ export default class Card extends Component {
       myRate,
     } = this.props.movieInfo;
 
-    const index = this.props.cardIndex;
-    const star = this.props.star;
+    const setRate = this.props.setRate;
 
     let rateColor = 'card__rate';
 
@@ -50,7 +57,7 @@ export default class Card extends Component {
         <img className="card__image" src={`https://image.tmdb.org/t/p/w500/${posterPath}`} alt={`${title}'s poster`} />
         <div className="card__content">
           <div className="card__title-box">
-            <h2 className="card__title">{title}</h2>
+            <h2 className="card__title">{this.textCutter(title, 40, 5)}</h2>
             <div className={rateColor}>{voteAverage.toFixed(1)}</div>
           </div>
           <span className="card__date">{releaseDate ? format(new Date(releaseDate), 'MMMM dd, yyyy') : ''} </span>
@@ -67,18 +74,16 @@ export default class Card extends Component {
               }}
             </MovieConsumer>
           </ul>
-          <p style={{ height: this.props.heightsArray[index] + 'px' }} className="card__text">
-            {overview}
-          </p>
+          <p className="card__text">{this.textCutter(overview, 150, 20) || this.noOverview}</p>
           <Rate
             className="card__rate-stars"
             style={{
-              fontSize: 18,
+              fontSize: 16,
             }}
             allowHalf
             count={10}
             defaultValue={myRate ? myRate : 0}
-            onChange={(value) => star(value, id, this.props.movieInfo)}
+            onChange={(value) => setRate(value, id, this.props.movieInfo)}
           />
         </div>
       </div>

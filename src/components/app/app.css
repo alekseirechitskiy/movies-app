@@ -1,11 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
 body {
   background-color: #f7f7f7;
-  font-family: Helvetica, Arial, sans-serif;
+  /* font-family: Helvetica, Arial, sans-serif; */
+  font-family: 'Inter', sans-serif;
 }
+
 .container {
-  max-width: 1050px;
-  padding: 0 20px;
+  box-sizing: border-box;
+  max-width: 1010px;
+  padding: 0 36px;
   margin: 0 auto;
+  background-color: #fff;
+  /* height: 100%; */
+  min-height: 100vh;
 }
 
 @media (max-width: 1120px) {

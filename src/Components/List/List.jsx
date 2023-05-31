@@ -1,50 +1,38 @@
 import React, { Component } from 'react';
 
-// import { Col, Row } from 'antd';
-
+import PaginationComponent from '../PaginationComponent';
 import Card from '../Card';
 import './List.css';
 
 export default class List extends Component {
-  textColor = 'violet';
-
-  state = {
-    heightsArray: [],
-  };
-
-  renderListItem(listItem, itemIndex) {
+  renderListItem(listItem) {
     return (
       <li key={listItem.id}>
-        <Card movieInfo={listItem} heightsArray={this.checkTextHeight()} cardIndex={itemIndex} star={this.props.star} />
+        <Card movieInfo={listItem} setRate={this.props.setRate} />
       </li>
     );
   }
 
-  checkTextHeight() {
-    const cards = document.querySelectorAll('.card');
-    const cardsArray = Array.from(cards);
-    const heightsArray = cardsArray.map((card) => {
-      const titleHight = card.querySelector('.card__title').offsetHeight + 7;
-      const dateHight = card.querySelector('.card__date').offsetHeight + 9;
-      const lablesHight = card.querySelector('.card__labels').offsetHeight + 9;
-      const countedTextHight = 260 - (titleHight + dateHight + lablesHight);
-
-      return countedTextHight;
-    });
-
-    return heightsArray;
-  }
-
-  componentDidMount() {
-    this.setState({ heightsArray: this.checkTextHeight });
-  }
-
   render() {
-    const { data } = this.props;
-    // console.log('this.props: ', this.props);
+    const { data, totalPages, currentTabKey, totalResults, currentPage, onPageChange } = this.props;
 
-    const movieCard = data.map((el, idx) => this.renderListItem(el, idx));
+    const movieCard = data.map((el) => this.renderListItem(el));
 
-    return <ul className="list">{movieCard}</ul>;
+    return (
+      <>
+        <ul className="list">{movieCard}</ul>
+        {totalPages && currentTabKey === 'search' ? (
+          <PaginationComponent
+            pages={totalPages}
+            currentPage={currentPage}
+            totalResults={totalResults}
+            onPageChange={onPageChange}
+          />
+        ) : null}
+        {totalPages && currentTabKey === 'rated' ? (
+          <PaginationComponent currentPage={1} onPageChange={onPageChange} />
+        ) : null}
+      </>
+    );
   }
 }

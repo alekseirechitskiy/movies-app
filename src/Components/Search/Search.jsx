@@ -5,11 +5,16 @@ import './Search.css';
 
 export default class Search extends Component {
   render() {
-    const { onSearchChange } = this.props;
+    const { onSearchChange, inputValue } = this.props;
     return (
       <div className="search">
-        <Input className="search__input" onChange={onSearchChange} size="large" placeholder="Type to search..." />
-        {/* <Input className="search__input" value={this.state.text} onChange={this.onTextCange} /> */}
+        <Input
+          className="search__input"
+          value={inputValue}
+          onChange={onSearchChange}
+          size="large"
+          placeholder="Type to search..."
+        />
       </div>
     );
   }
