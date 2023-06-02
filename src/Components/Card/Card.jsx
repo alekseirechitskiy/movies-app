@@ -35,10 +35,14 @@ export default class Card extends Component {
       overview,
       poster_path: posterPath,
       id,
-      myRate,
+      rating,
+      // myRate,
+      // sessionId,
     } = this.props.movieInfo;
 
     const setRate = this.props.setRate;
+
+    // const rated = this.props.rated;
 
     let rateColor = 'card__rate';
 
@@ -82,7 +86,7 @@ export default class Card extends Component {
             }}
             allowHalf
             count={10}
-            defaultValue={myRate ? myRate : 0}
+            defaultValue={rating ? rating : 0}
             onChange={(value) => setRate(value, id, this.props.movieInfo)}
           />
         </div>

@@ -8,7 +8,7 @@ export default class List extends Component {
   renderListItem(listItem) {
     return (
       <li key={listItem.id}>
-        <Card movieInfo={listItem} setRate={this.props.setRate} />
+        <Card movieInfo={listItem} setRate={this.props.setRate} rated={this.props.rated} />
       </li>
     );
   }
@@ -30,7 +30,7 @@ export default class List extends Component {
           />
         ) : null}
         {totalPages && currentTabKey === 'rated' ? (
-          <PaginationComponent currentPage={1} onPageChange={onPageChange} />
+          <PaginationComponent currentPage={currentPage} onPageChange={onPageChange} />
         ) : null}
       </>
     );
