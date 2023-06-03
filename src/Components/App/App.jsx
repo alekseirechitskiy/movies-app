@@ -34,7 +34,6 @@ export default class App extends Component {
     currentTabKey: 'search',
     totalPages: null,
     totalResults: null,
-    tempResultsArray: [],
     resultsArray: [],
     loading: false,
     error: false,
@@ -98,7 +97,6 @@ export default class App extends Component {
       .catch(this.onError);
 
     this.setState({ loading: false, error: false });
-    // this.defineRenderArray();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -106,22 +104,15 @@ export default class App extends Component {
       this.getData(this.state.text, this.state.currentPage);
     }
 
-    if (this.state.tempResultsArray !== prevState.tempResultsArray) {
-      // this.defineRenderArray();
-    }
     if (this.state.currentTabKey !== prevState.currentTabKey) {
-      this.mapiService.getRatedMovies(this.state.sessionId).then(this.onUpdateListWithRatings).catch(this.onError);
+      // this.mapiService.getRatedMovies(this.state.sessionId).then(this.onUpdateListWithRatings).catch(this.onError);
     }
 
     if (this.state.sessionId) {
-      this.mapiService.getRatedMovies(this.state.sessionId).then((res) => {
-        console.log(res);
-      });
+      // this.mapiService.getRatedMovies(this.state.sessionId).then((res) => {
+      //   console.log(res);
+      // });
     }
-
-    console.log('STATE', this.state);
-    // console.log('RESULTS ARRAY ', this.state.resultsArray);
-    // console.log('RATED ARRAY ', this.state.ratedArray);
   }
 
   onSearchChange = (e) => {
@@ -129,69 +120,62 @@ export default class App extends Component {
     this.setState({ text: e.target.value });
   };
 
-  defineRenderArray = () => {
-    // clear resultsArray
-    this.setState(({ resultsArray }) => {
-      let newResultsArray = [...resultsArray];
-      newResultsArray = [];
-      // newResultsArray = [...this.state.tempResultsArray];
-      return { resultsArray: newResultsArray };
-    });
+  // defineRenderArray = () => {
+  //   // clear resultsArray
+  //   this.setState(({ resultsArray }) => {
+  //     let newResultsArray = [...resultsArray];
+  //     newResultsArray = [];
+  //     // newResultsArray = [...this.state.tempResultsArray];
+  //     return { resultsArray: newResultsArray };
+  //   });
 
-    // creating resultsArray from tempResultsArray
-    this.state.tempResultsArray.forEach((item) => {
-      this.setState(({ resultsArray }) => {
-        let newArray = [...resultsArray];
-        this.state.ratedArray.forEach((el) => {
-          if (el.id === item.id) {
-            item.rating = el.rating;
-            console.log('item from TEMP ARRAY: ', item);
-            // this.state.resultsArray.push(item);
-            this.setState(({ resultsArray }) => {
-              newArray = [...resultsArray];
-              newArray.push(item);
-              // return { resultsArray: newArray };
-            });
-          }
-        });
+  //   // creating resultsArray from tempResultsArray
+  //   this.state.tempResultsArray.forEach((item) => {
+  //     this.setState(({ resultsArray }) => {
+  //       let newArray = [...resultsArray];
+  //       this.state.ratedArray.forEach((el) => {
+  //         if (el.id === item.id) {
+  //           item.rating = el.rating;
+  //           console.log('item from TEMP ARRAY: ', item);
+  //           // this.state.resultsArray.push(item);
+  //           this.setState(({ resultsArray }) => {
+  //             newArray = [...resultsArray];
+  //             newArray.push(item);
+  //             // return { resultsArray: newArray };
+  //           });
+  //         }
+  //       });
 
-        newArray.push(item);
-        return { resultsArray: newArray };
-      });
-    });
+  //       newArray.push(item);
+  //       return { resultsArray: newArray };
+  //     });
+  //   });
 
-    // clear tempResultsArray
-    this.setState(({ tempResultsArray }) => {
-      let newTempResultsArray = [...tempResultsArray];
-      newTempResultsArray = [];
-      return { tempResultsArray: newTempResultsArray };
-    });
-  };
+  //   // clear tempResultsArray
+  //   this.setState(({ tempResultsArray }) => {
+  //     let newTempResultsArray = [...tempResultsArray];
+  //     newTempResultsArray = [];
+  //     return { tempResultsArray: newTempResultsArray };
+  //   });
+  // };
 
   getData = debounce((title) => {
-    // const title = 'matrix';
     this.setState({
       loading: true,
     });
 
-    // this.mapiService.getMovies(title).then(this.onUpdateList).catch(this.onError);
     this.mapiService.getMovies(title).then(this.onUpdateList).catch(this.onError);
-
-    // evangelion
 
     this.mapiService.getRatedMovies(this.state.sessionId).then(this.onUpdateListWithRatings).catch(this.onError);
   }, 500);
 
   onUpdateList = (data) => {
-    console.log('== DATA ==', data.results);
-    // console.log(this.state.ratedArray);
     let tempData = data.results;
     let newTempData = [];
     tempData.forEach((el) => {
       this.state.ratedArray.forEach((item) => {
         if (el.id === item.id) {
           el.rating = item.rating;
-          console.log(el.rating);
 
           const idx = tempData.findIndex((el) => el.id === item.id);
           const oldItem = tempData[idx];
@@ -207,22 +191,11 @@ export default class App extends Component {
     return this.setState({
       currentPage: data.page,
       resultsArray: newTempData,
-      // tempResultsArray: data.results,
       totalPages: data.total_pages,
       totalResults: data.total_results,
       loading: false,
     });
   };
-  // onUpdateList = (data) => {
-  //   return this.setState({
-  //     currentPage: data.page,
-  //     // resultsArray: data.results,
-  //     tempResultsArray: data.results,
-  //     totalPages: data.total_pages,
-  //     totalResults: data.total_results,
-  //     loading: false,
-  //   });
-  // };
 
   onUpdateListWithRatings = (data) => {
     return this.setState({
@@ -237,7 +210,6 @@ export default class App extends Component {
   onChangePage = (page) => {
     this.setState({ currentPage: page, loading: true });
     this.mapiService.getMovies(this.state.text, page).then(this.onUpdateList).catch(this.onError);
-    // this.defineRenderArray();
   };
 
   changeCurrentTabKey = (key) => {
@@ -246,14 +218,9 @@ export default class App extends Component {
       loading: true,
     });
     this.mapiService.getMovies(this.state.text, this.state.page).then(this.onUpdateList).catch(this.onError);
-    // this.defineRenderArray();
   };
 
   setRate = (value, id, obj) => {
-    // console.log('value, id: ', value, id, this.state.sessionId);
-    console.log('star pressed');
-    // this.defineRenderArray();
-
     this.mapiService.addRating(id, this.state.sessionId, value);
     this.setState(({ ratedArray }) => {
       const newArray = [...ratedArray];
@@ -263,7 +230,6 @@ export default class App extends Component {
       if (idx !== -1) {
         const oldItem = newArray[idx];
         const newItem = { ...oldItem, rating: value };
-
         const editedArray = [...newArray.slice(0, idx), newItem, ...newArray.slice(idx + 1)];
         return {
           ratedArray: editedArray,
@@ -285,12 +251,7 @@ export default class App extends Component {
     return record;
   };
 
-  displayRatedList = () => {
-    if (this.state.currentTabKey === 'rated') console.log(this.props.ratedArray);
-  };
-
   render() {
-    // console.log('=== STATE ===', this.state);
     const { ratedArray, resultsArray, loading, error } = this.state;
 
     const hasData = !(loading || error);
@@ -300,14 +261,18 @@ export default class App extends Component {
         <Search onSearchChange={this.onSearchChange} inputValue={this.state.text} />
       ) : null;
 
-    const errorMessage = error ? <ErrorMessage /> : null;
+    const errorMessage = error ? (
+      <ErrorMessage message="Could not get data from server. Please try again in 5 minutes." />
+    ) : null;
 
     const spinner = loading ? <Spinner /> : null;
+
     let content;
 
-    const noContent = loading ? null : 'Movie not found';
+    const message = <span className="message">The movies list is empty</span>;
+    const noContent = loading ? null : message;
 
-    if (hasData && this.state.currentTabKey === 'search') {
+    if (hasData && this.state.currentTabKey === 'search' && resultsArray.length !== 0) {
       content = (
         <List
           data={resultsArray}
@@ -322,7 +287,7 @@ export default class App extends Component {
       );
     }
 
-    if (hasData && this.state.currentTabKey === 'rated') {
+    if (hasData && this.state.currentTabKey === 'rated' && ratedArray.length !== 0) {
       content = <List data={ratedArray} setRate={this.setRate} />;
     }
 
@@ -330,7 +295,13 @@ export default class App extends Component {
       <MovieProvider value={this.genresArray}>
         <div className="container">
           <Offline>
-            <Alert message="Error" description="There is no connection to the internet!" type="error" showIcon />
+            <Alert
+              className="error"
+              message="Error"
+              description="There is no connection to the internet!"
+              type="error"
+              showIcon
+            />
           </Offline>
           <Online>
             <Tabs
@@ -345,7 +316,8 @@ export default class App extends Component {
             {searchBar}
             {errorMessage}
             {spinner}
-            {resultsArray.length === 0 ? noContent : content}
+            {/* {resultsArray.length === 0 ? noContent : content} */}
+            {content ? content : noContent}
           </Online>
         </div>
       </MovieProvider>

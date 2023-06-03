@@ -2,22 +2,66 @@
 
 body {
   background-color: #f7f7f7;
-  /* font-family: Helvetica, Arial, sans-serif; */
   font-family: 'Inter', sans-serif;
+  padding: 0;
+  margin: 0;
 }
 
 .container {
   box-sizing: border-box;
   max-width: 1010px;
-  padding: 0 36px;
+  padding: 15px 36px;
   margin: 0 auto;
   background-color: #fff;
-  /* height: 100%; */
   min-height: 100vh;
 }
 
-@media (max-width: 1120px) {
+/* "No movies" message */
+
+.message {
+  margin-top: 30px;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  color: #d3d3d3;
+  font-size: 16px;
+}
+
+/* Tabs */
+
+.ant-tabs-top > .ant-tabs-nav::before {
+  border: none;
+}
+
+.ant-tabs > .ant-tabs-nav .ant-tabs-nav-list {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ant-tabs-tab-btn {
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+}
+
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #1890ff;
+  text-shadow: none;
+}
+
+.ant-tabs .ant-tabs-ink-bar {
+  background: #1890ff;
+}
+
+/* Responsive */
+
+@media (max-width: 991px) {
   .container {
-    padding: 0;
+    max-width: 750px;
+  }
+}
+
+@media (max-width: 767px) {
+  .container {
+    max-width: 420px;
+    padding: 0 10px;
   }
 }

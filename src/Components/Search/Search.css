@@ -2,10 +2,18 @@
   padding: 34px 0;
 }
 
-.search input {
-  font-size: 18px;
+.search__input {
+  font-size: 16px;
+  width: 100%;
+  border-radius: 4px;
+  height: 40px;
+  padding-top: 5px;
 }
 
-.search__input {
-  width: 100%;
+/* Responsive */
+
+@media (max-width: 767px) {
+  .search {
+    padding: 0 0 10px 0;
+  }
 }

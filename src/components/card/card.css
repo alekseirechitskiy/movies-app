@@ -19,7 +19,7 @@
   height: auto;
   width: 183px;
   vertical-align: bottom;
-  background-color: #dddddd;
+  background-color: #d3d3d3;
   background-image: url('./no-image.svg');
   background-repeat: no-repeat;
   background-size: 40%;
@@ -29,11 +29,9 @@
 .card__title-box {
   display: flex;
   justify-content: space-between;
-  /* overflow: hidden; */
 }
 
 .card__title {
-  /* height: 56px; */
   margin: 0;
   margin-bottom: 7px;
   font-style: normal;
@@ -107,7 +105,6 @@
   font-size: 12px;
   line-height: 22px;
   overflow: hidden;
-  /* max-height: 110px; */
   margin-bottom: auto;
   flex-grow: 0;
 }
@@ -116,7 +113,9 @@
   margin-top: 5px;
 }
 
-@media (max-width: 1120px) {
+/* Responsive */
+
+@media (max-width: 767px) {
   .card {
     display: flex;
     justify-content: flex-start;

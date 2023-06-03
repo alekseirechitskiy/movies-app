@@ -6,7 +6,7 @@ import { MovieConsumer } from '../../Context';
 import './Card.css';
 
 export default class Card extends Component {
-  noOverview = 'For this movie there is no overview yet';
+  _noOverview = 'For this movie there is no overview yet';
 
   constructor() {
     super();
@@ -36,13 +36,9 @@ export default class Card extends Component {
       poster_path: posterPath,
       id,
       rating,
-      // myRate,
-      // sessionId,
     } = this.props.movieInfo;
 
     const setRate = this.props.setRate;
-
-    // const rated = this.props.rated;
 
     let rateColor = 'card__rate';
 
@@ -78,7 +74,7 @@ export default class Card extends Component {
               }}
             </MovieConsumer>
           </ul>
-          <p className="card__text">{this.textCutter(overview, 150, 20) || this.noOverview}</p>
+          <p className="card__text">{this.textCutter(overview, 150, 20) || this._noOverview}</p>
           <Rate
             className="card__rate-stars"
             style={{
