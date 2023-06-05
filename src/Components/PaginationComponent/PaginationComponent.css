@@ -3,3 +3,31 @@
   text-align: center;
   background-color: #ffffff;
 }
+
+.ant-pagination .ant-pagination-item a {
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.ant-pagination .ant-pagination-item-active {
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #1890ff;
+  border: none;
+  border-radius: 4px;
+}
+
+.ant-pagination .ant-pagination-item-active:hover {
+  border-color: #1890ff;
+}
+
+.ant-pagination .ant-pagination-item-active a {
+  color: #ffffff;
+}
+
+.ant-pagination .ant-pagination-item-active:hover a {
+  color: #ffffff;
+}
+
+.ant-select-selection-item {
+  color: rgba(0, 0, 0, 0.65);
+}
